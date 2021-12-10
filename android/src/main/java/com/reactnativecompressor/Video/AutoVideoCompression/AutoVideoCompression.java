@@ -55,13 +55,13 @@ public class AutoVideoCompression {
       int resultWidth = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
       int bitrate=Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
       
-      boolean isPortrait = height > width;
+      boolean isPortrait = resultHeight > resultWidth;
 //       int maxSize = 1920;
-      if(isPortrait && height > maxSize){
-        resultWidth = (int) (((float)maxSize/height)*width);
+      if(isPortrait && resultHeight > maxSize){
+        resultWidth = (int) (((float)maxSize/resultHeight)*resultWidth);
         resultHeight = maxSize;
-      }else if(width > maxSize){
-        resultHeight = (int) (((float)maxSize/width)*height);
+      }else if(resultWidth > maxSize){
+        resultHeight = (int) (((float)maxSize/resultWidth)*resultHeight);
         resultWidth = maxSize;
       }
       else
