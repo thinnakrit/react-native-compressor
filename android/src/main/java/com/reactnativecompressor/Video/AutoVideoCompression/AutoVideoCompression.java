@@ -39,21 +39,46 @@ public class AutoVideoCompression {
     if(sizeInMb>minimumFileSizeForCompress)
     {
       String destinationPath = generateCacheFilePath("mp4", reactContext);
-      int actualHeight =Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
-      int actualWidth = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
-      int bitrate = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
+      
+//       int actualHeight =Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+//       int actualWidth = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
+//       int bitrate = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
+      
 
-      float scale = actualWidth > actualHeight ? maxSize / actualWidth : maxSize / actualHeight;
-      int resultWidth = Math.round(actualWidth * scale / 2) * 2;
-      int resultHeight = Math.round(actualHeight * scale / 2) * 2;
+//       float scale = actualWidth > actualHeight ? maxSize / actualWidth : maxSize / actualHeight;
+//       int resultWidth = Math.round(actualWidth * scale / 2) * 2;
+//       int resultHeight = Math.round(actualHeight * scale / 2) * 2;
+      
+      
+      int height =Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+      int width = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
+      int bitrate=Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
+      
+      boolean isPortrait = height > width;
+      int maxSize = 1920;
+      if(isPortrait && height > maxSize){
+        width = (int) (((float)maxSize/height)*width);
+        height = maxSize;
+      }else if(width > maxSize){
+        height = (int) (((float)maxSize/width)*height);
+        width = maxSize;
+      }
+      else
+      {
+        if(options.bitrate==0) {
+          options.bitrate = (int) (bitrate * 0.8);
+        }
+      }
+      float videoBitRate = (options.bitrate>0)?options.bitrate: (float) (height * width * 1.5);
+      
 
-      float videoBitRate = makeVideoBitrate(
-        actualHeight, actualWidth,
-        bitrate,
-        resultHeight, resultWidth
-      );
+//       float videoBitRate = makeVideoBitrate(
+//         actualHeight, actualWidth,
+//         bitrate,
+//         resultHeight, resultWidth
+//       );
 
-      VideoSlimmer.convertVideo(srcPath, destinationPath, resultWidth, resultHeight, (int) videoBitRate, new VideoSlimmer.ProgressListener() {
+      VideoSlimmer.convertVideo(srcPath, destinationPath, width, height, (int) videoBitRate, new VideoSlimmer.ProgressListener() {
         @Override
         public void onStart() {
           //convert start
