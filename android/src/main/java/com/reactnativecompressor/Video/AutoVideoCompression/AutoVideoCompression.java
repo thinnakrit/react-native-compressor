@@ -28,7 +28,7 @@ public class AutoVideoCompression {
   public static void createCompressionSettings(String fileUrl,VideoCompressorHelper options,Promise promise, ReactApplicationContext reactContext) {
    
     try{
-     int maxSize = 720;
+    int maxSize = 720;
     float minimumFileSizeForCompress=options.minimumFileSizeForCompress;
     Uri uri= Uri.parse(fileUrl);
     String srcPath = uri.getPath();
@@ -43,28 +43,12 @@ public class AutoVideoCompression {
       
       int actualHeight =Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
       int actualWidth = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
-//       int bitrate = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
+      int bitrate = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
       
-
       float scale = actualWidth > actualHeight ? maxSize / actualWidth : maxSize / actualHeight;
-//       int resultWidth = Math.round(actualWidth * scale / 2) * 2;
-//       int resultHeight = Math.round(actualHeight * scale / 2) * 2;
-      
-      
-      int resultHeight =Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
-      int resultWidth = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
-      int bitrate=Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
-      
-      boolean isPortrait = resultHeight > resultWidth;
-
-      if(isPortrait && actualHeight > maxSize){
-        resultWidth = Math.round(actualWidth * scale / 2) * 2;
-        resultHeight = maxSize;
-      }else if(actualWidth > maxSize){
-        resultHeight = Math.round(actualHeight * scale / 2) * 2;
-        resultWidth = maxSize;
-      }
-
+      boolean isPortrait = actualHeight > actualWidth;
+      int resultWidth = isPortrait ? Math.round(actualWidth * scale / 2) * 2 : maxSize;
+      int resultHeight = isPortrait ? maxSize : Math.round(actualHeight * scale / 2) * 2;
 
       float videoBitRate = makeVideoBitrate(
         actualHeight, actualWidth,
