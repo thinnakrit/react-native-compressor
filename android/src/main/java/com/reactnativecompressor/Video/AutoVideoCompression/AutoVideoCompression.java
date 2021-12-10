@@ -47,7 +47,7 @@ public class AutoVideoCompression {
 //       (original height / original width) x new width = new height
       
       int resultWidth  = actualHeight > actualWidth ? Math.round((actualWidth / actualHeight) * maxSize) : Math.round(maxSize);
-      int resultHeight = actualHeight > actualWidth ? Math.round(maxSize) : Math.round((actualHeight / actualWidth) * maxSize) ;
+      int resultHeight = actualHeight > actualWidth ? Math.round(maxSize) : Math.round((actualHeight / actualWidth) * maxSize);
       
       float videoBitRate = makeVideoBitrate(
         actualHeight, actualWidth,
