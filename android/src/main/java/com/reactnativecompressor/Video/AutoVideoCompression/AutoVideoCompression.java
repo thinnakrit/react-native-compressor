@@ -58,18 +58,20 @@ public class AutoVideoCompression {
       boolean isPortrait = resultHeight > resultWidth;
 //       int maxSize = 1920;
       if(isPortrait && resultHeight > maxSize){
-        resultWidth = (int) (((float)maxSize/resultHeight)*resultWidth);
+        resultWidth = Math.round(maxSize/resultHeight) * resultWidth;
+//         resultWidth = (int) (((float)maxSize/resultHeight)*resultWidth);
         resultHeight = maxSize;
       }else if(resultWidth > maxSize){
-        resultHeight = (int) (((float)maxSize/resultWidth)*resultHeight);
+        resultHeight = Math.round(maxSize/resultWidth) * resultHeight;
+//         resultHeight = (int) (((float)maxSize/resultWidth)*resultHeight);
         resultWidth = maxSize;
       }
-      else
-      {
-        if(options.bitrate==0) {
-          options.bitrate = (int) (bitrate * 0.8);
-        }
-      }
+//       else
+//       {
+//         if(options.bitrate==0) {
+//           options.bitrate = (int) (bitrate * 0.8);
+//         }
+//       }
 //       float videoBitRate = (options.bitrate>0)?options.bitrate: (float) (height * width * 1.5);
       
 
