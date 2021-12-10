@@ -55,7 +55,7 @@ public class AutoVideoCompression {
       int bitrate=Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
       
       boolean isPortrait = height > width;
-      int maxSize = 1920;
+//       int maxSize = 1920;
       if(isPortrait && height > maxSize){
         width = (int) (((float)maxSize/height)*width);
         height = maxSize;
