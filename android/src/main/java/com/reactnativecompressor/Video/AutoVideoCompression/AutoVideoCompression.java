@@ -46,7 +46,7 @@ public class AutoVideoCompression {
 //       int bitrate = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
       
 
-//       float scale = actualWidth > actualHeight ? maxSize / actualWidth : maxSize / actualHeight;
+      float scale = actualWidth > actualHeight ? maxSize / actualWidth : maxSize / actualHeight;
 //       int resultWidth = Math.round(actualWidth * scale / 2) * 2;
 //       int resultHeight = Math.round(actualHeight * scale / 2) * 2;
       
@@ -56,24 +56,15 @@ public class AutoVideoCompression {
       int bitrate=Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
       
       boolean isPortrait = resultHeight > resultWidth;
-//       int maxSize = 1920;
-      if(isPortrait && resultHeight > maxSize){
-        resultWidth = Math.round(maxSize/resultHeight) * resultWidth;
-//         resultWidth = (int) (((float)maxSize/resultHeight)*resultWidth);
+
+      if(isPortrait && actualHeight > maxSize){
+        resultWidth = Math.round(actualWidth * scale / 2) * 2;
         resultHeight = maxSize;
-      }else if(resultWidth > maxSize){
-        resultHeight = Math.round(maxSize/resultWidth) * resultHeight;
-//         resultHeight = (int) (((float)maxSize/resultWidth)*resultHeight);
+      }else if(actualWidth > maxSize){
+        resultHeight = Math.round(actualHeight * scale / 2) * 2;
         resultWidth = maxSize;
       }
-//       else
-//       {
-//         if(options.bitrate==0) {
-//           options.bitrate = (int) (bitrate * 0.8);
-//         }
-//       }
-//       float videoBitRate = (options.bitrate>0)?options.bitrate: (float) (height * width * 1.5);
-      
+
 
       float videoBitRate = makeVideoBitrate(
         actualHeight, actualWidth,
