@@ -26,10 +26,9 @@ public class AutoVideoCompression {
   static int currentVideoCompression=0;
 
   public static void createCompressionSettings(String fileUrl,VideoCompressorHelper options,Promise promise, ReactApplicationContext reactContext) {
-   
-    try{
-    int maxSize = 720;
+    float maxSize = options.maxSize;
     float minimumFileSizeForCompress=options.minimumFileSizeForCompress;
+    try{
     Uri uri= Uri.parse(fileUrl);
     String srcPath = uri.getPath();
     MediaMetadataRetriever metaRetriever = new MediaMetadataRetriever();
@@ -46,9 +45,8 @@ public class AutoVideoCompression {
       int bitrate = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
       
       float scale = actualWidth > actualHeight ? maxSize / actualWidth : maxSize / actualHeight;
-      boolean isPortrait = actualHeight > actualWidth;
-      int resultWidth = isPortrait ? Math.round(actualWidth * scale / 2) * 2 : maxSize;
-      int resultHeight = isPortrait ? maxSize : Math.round(actualHeight * scale / 2) * 2;
+      int resultWidth = actualHeight > actualWidth ? Math.round(actualWidth * scale / 2) * 2 : Math.round(maxSize);
+      int resultHeight = actualHeight > actualWidth ? Math.round(maxSize) : Math.round(actualHeight * scale / 2) * 2;
 
       float videoBitRate = makeVideoBitrate(
         actualHeight, actualWidth,
