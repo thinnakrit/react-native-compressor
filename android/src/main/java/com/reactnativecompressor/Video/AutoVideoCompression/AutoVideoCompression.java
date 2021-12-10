@@ -44,9 +44,8 @@ public class AutoVideoCompression {
       int actualWidth = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
       int bitrate = Integer.parseInt(metaRetriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
       
-      float scale = actualWidth > actualHeight ? maxSize / actualWidth : maxSize / actualHeight;
-      int resultWidth = actualHeight > actualWidth ? Math.round(actualWidth * scale / 2) * 2 : Math.round(maxSize);
-      int resultHeight = actualHeight > actualWidth ? Math.round(maxSize) : Math.round(actualHeight * scale / 2) * 2;
+      int resultWidth  = actualHeight > actualWidth ? Integer.parseInt(actualWidth * (maxSize / actualHeight) / 2) : Integer.parseInt(maxSize);
+      int resultHeight = actualHeight > actualWidth ? Integer.parseInt(maxSize) : Integer.parseInt(actualHeight * (maxSize / actualWidth) / 2) ;
 
       float videoBitRate = makeVideoBitrate(
         actualHeight, actualWidth,
