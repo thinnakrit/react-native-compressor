@@ -28,7 +28,7 @@ public class AutoVideoCompression {
   public static void createCompressionSettings(String fileUrl,VideoCompressorHelper options,Promise promise, ReactApplicationContext reactContext) {
    
     try{
-     int maxSize = options.maxSize;
+     int maxSize = 720;
     float minimumFileSizeForCompress=options.minimumFileSizeForCompress;
     Uri uri= Uri.parse(fileUrl);
     String srcPath = uri.getPath();
